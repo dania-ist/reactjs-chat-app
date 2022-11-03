@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
+import TheAppProvider from "./context/TheAppProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
     <BrowserRouter>
-      <App />
+      <TheAppProvider>
+        <App />
+      </TheAppProvider>
     </BrowserRouter>
   </ChakraProvider>
 );
