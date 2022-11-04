@@ -15,7 +15,7 @@ Uses Socket.io for real time communication and stores user details in encrypted 
 
 ### Authenticaton
 
-![](https://github.com/dania-ist/reactjs-chat-app/blob/main/screenshots/login.png)
+![](screenshots/login.png)
 ![](https://github.com/dania-ist/reactjs-chat-app/blob/main/screenshots/signup.png)
 
 ### Real Time Chatting with Typing indicators
