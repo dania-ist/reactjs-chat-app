@@ -24,7 +24,7 @@ const Home = () => {
       <Container maxW="xl">
         <Box
           textAlign="center"
-          d="flex"
+          display="flex"
           justifyContent="center"
           p={1}
           bg="white"

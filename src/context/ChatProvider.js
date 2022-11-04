@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const TheAppContext = createContext();
+const ChatContext = createContext();
 
-const TheAppProvider = ({ children }) => {
+const ChatProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState();
   const [user, setUser] = useState();
+  const [notification, setNotification] = useState([]);
+  const [chats, setChats] = useState();
 
-  const [chats, setChats] = useState([]);
-  const [fetchAgain, setFetchAgain] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,28 +16,29 @@ const TheAppProvider = ({ children }) => {
     setUser(userInfo);
 
     if (!userInfo) navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
   return (
-    <TheAppContext.Provider
+    <ChatContext.Provider
       value={{
         selectedChat,
         setSelectedChat,
         user,
         setUser,
+        notification,
+        setNotification,
         chats,
         setChats,
-        fetchAgain,
-        setFetchAgain,
       }}
     >
       {children}
-    </TheAppContext.Provider>
+    </ChatContext.Provider>
   );
 };
 
-export const TheAppState = () => {
-  return useContext(TheAppContext);
+export const ChatState = () => {
+  return useContext(ChatContext);
 };
 
-export default TheAppProvider;
+export default ChatProvider;

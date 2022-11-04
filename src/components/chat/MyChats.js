@@ -1,31 +1,48 @@
 import { AddIcon } from "@chakra-ui/icons";
 import { Box, Stack, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/toast";
 import { useEffect, useState } from "react";
 
-import { ChatLoading, AddGroupChatModal } from "../index";
-import { TheAppState } from "../../context/TheAppProvider";
-import GetAllChatsHook from "../../helper/chat/get-all-chats-hook";
-import { getSenderFull } from "../../helper/message/message-info-hook";
+import { getSender } from "../../config/ChatLogics";
 
-const MyChats = () => {
+import { ChatLoading, GroupChatModal } from "../index";
+import baseUrl from "../../api/baseURL";
+import { ChatState } from "../../context/ChatProvider";
+
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
-  const {
-    selectedChat,
-    setSelectedChat,
-    // user,
-    chats,
-    //   setChats,
-    fetchAgain,
-  } = TheAppState();
+  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
 
-  const [fetchChats, loading] = GetAllChatsHook();
+  const toast = useToast();
+
+  const fetchChats = async () => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await baseUrl.get("/api/chat", config);
+      setChats(data);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the chats",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
 
   useEffect(() => {
-    console.log(fetchAgain);
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
+    // eslint-disable-next-line
   }, [fetchAgain]);
 
   return (
@@ -50,7 +67,7 @@ const MyChats = () => {
         alignItems="center"
       >
         My Chats
-        <AddGroupChatModal>
+        <GroupChatModal>
           <Button
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
@@ -58,7 +75,7 @@ const MyChats = () => {
           >
             New Group Chat
           </Button>
-        </AddGroupChatModal>
+        </GroupChatModal>
       </Box>
       <Box
         display="flex"
@@ -70,9 +87,9 @@ const MyChats = () => {
         borderRadius="lg"
         overflowY="hidden"
       >
-        {!loading ? (
+        {chats ? (
           <Stack overflowY="scroll">
-            {chats?.map((chat) => (
+            {chats.map((chat) => (
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
@@ -85,12 +102,12 @@ const MyChats = () => {
               >
                 <Text>
                   {!chat.isGroupChat
-                    ? getSenderFull(loggedUser, chat.users)?.name
-                    : chat.chatName}
+                    ? getSender(loggedUser, chat.users)
+                    : chat?.chatName}
                 </Text>
                 {chat.latestMessage && (
                   <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
+                    <b>{chat?.latestMessage?.sender?.name} : </b>
                     {chat.latestMessage.content.length > 50
                       ? chat.latestMessage.content.substring(0, 51) + "..."
                       : chat.latestMessage.content}
