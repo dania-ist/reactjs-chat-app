@@ -8,7 +8,7 @@ const TheAppProvider = ({ children }) => {
   const [user, setUser] = useState();
 
   const [chats, setChats] = useState([]);
-
+  const [fetchAgain, setFetchAgain] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +27,8 @@ const TheAppProvider = ({ children }) => {
         setUser,
         chats,
         setChats,
+        fetchAgain,
+        setFetchAgain,
       }}
     >
       {children}

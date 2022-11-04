@@ -5,4 +5,6 @@ export { default as MyChats } from "./chat/MyChats";
 export { default as ChatBox } from "./chat/ChatBox";
 export { default as ProfileModal } from "./modals/ProfileModal";
 export { default as UserListItem } from "./chat/utility/UserLIstItem";
+export { default as UserBadgeItem } from "./chat/utility/UserBadgeItem";
 export { default as ChatLoading } from "./chat/utility/ChatLoading";
+export { default as AddGroupChatModal } from "./modals/AddGroupChatModal";
