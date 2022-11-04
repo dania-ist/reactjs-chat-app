@@ -42,6 +42,6 @@ Uses Socket.io for real time communication and stores user details in encrypted 
 
 ![](https://github.com/dania-ist/reactjs-chat-app/blob/main/screenshots/update-group.png)
 
-### View Other user Profile
+### View user Profile
 
 ![](https://github.com/dania-ist/reactjs-chat-app/blob/main/screenshots/profile-modal.png)
